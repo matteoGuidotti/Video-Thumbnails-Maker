@@ -107,6 +107,6 @@ server publish to the SSE connection the new status.
         <b>"localhost:5000/jobs"</b>: Endpoint that renders the html page showing real-time updates
     </li>
     <li>
-        <b>"localhost:5000/jobs/videos/<int:id></b>
+        <b>"localhost:5000/jobs/videos/[id]</b>: 
     </li>
 </ul>
