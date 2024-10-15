@@ -7,11 +7,19 @@ Flask was also able to be customized with all the functionalities I wanted for t
 
 ## Structure of the project
 
-The folder Video-Thumbnails-Maker contains metadata to be able to start the application by means of start.sh
+The folder Video-Thumbnails-Maker contains metadata to be able to start the application by means of start.sh and the application database dump.<br>
+The folder Video-Thumbnails-Maker/videoThumbnailsMaker contains:
+    <ul>
+        <li>index.py: The application server that exposes the service</li>
+        <li>data: Folder in which thumbnails and videos will be saved</li>
+        <li>templates: Folder in which HTML templates are stored</li>
+        <li>models: Package containing declaration for the two classes used: VideoJob and ThumbnailsJob </li>
+        <li>utilities: Package containing python utilities to access to the application database and filesystem</li>
+    </ul>
 
 ## Running the application
 
-In addition to flask, the other dependencies for this project are: mysqlclient, flask-mysqldb, flask_sse, marshmallow, moviepy.\n
+In addition to flask, the other dependencies for this project are: mysqlclient, flask-mysqldb, flask_sse, marshmallow, moviepy.<br>
 They can be installed locally thanks to pip, but I decided to handle the project with pipenv, so to obtain an application easier to start for every user.
 
 In order to run properly the application, active mysql and redis local servers are necessary. MySQL is necessary for the connection to the database
