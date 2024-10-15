@@ -15,7 +15,7 @@ used for the application data, while redis is necessary to establish and maintai
 
 In order to set the MySQL environment properly, it is necessary to add a new user called "admin". You can issue the following commands:
 
-'''bash
+```bash
     sudo mysql
 
     # in mysql shell
@@ -23,19 +23,19 @@ In order to set the MySQL environment properly, it is necessary to add a new use
     GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost';
     FLUSH PRIVILEGES;
     EXIT;
-'''
+```
 
 Then, you can restore the application database starting from the dump file with the following commands:
 
-'''bash
+```bash
     # from the Video-Thumbnail-Maker directory
     mysql -u admin -p < videoThumbnailsMaker_DB_dump.sql
-'''
+```
 
 To run this application, it is important to have Python 3.10+ and [Pipenv](https://pipenv.readthedocs.io/en/latest/) installed locally. 
 If you have then, you can issue the following commands:
 
-'''bash
+```bash
     # from the Video-Thumbnail-Maker directory
     ./start.sh 
-'''
+```
