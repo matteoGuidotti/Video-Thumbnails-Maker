@@ -107,6 +107,18 @@ server publish to the SSE connection the new status.
         <b>"localhost:5000/jobs"</b>: Endpoint that renders the html page showing real-time updates
     </li>
     <li>
-        <b>"localhost:5000/jobs/videos/[id]</b>: 
+        <b>"localhost:5000/jobs/videos/[id]</b>: Endpoint that returns the JSON object representing the job in charge of uploading a video indentified by id, that is
+        an integer. An example of such JSON object is:
+        ```json
+            {
+                "filename": "video.mp4",
+                "id": 3,
+                "status": "QUEUED"
+            }
+        ```
+    </li>
+    <li>
+        <b>"localhost:5000/jobs/thumbnails/[id]"</b>: Endpoint that returns the JSON object representing the job in charge of extracting a thumbnail indentified by id, 
+        that is an integer. 
     </li>
 </ul>
