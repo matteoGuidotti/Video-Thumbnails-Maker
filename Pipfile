@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 flask = "*"
+mysqlclient = "*"
 flask-mysqldb = "*"
 flask-sse = "*"
 marshmallow = "*"
