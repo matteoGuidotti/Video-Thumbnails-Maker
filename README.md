@@ -115,7 +115,6 @@ server publish to the SSE connection the new status.
                 "id": 3,
                 "status": "QUEUED"
             }
-        ```
     </li>
     <li>
         <b>"localhost:5000/jobs/thumbnails/[id]"</b>: Endpoint that returns the JSON object representing the job in charge of extracting a thumbnail indentified by id, 
