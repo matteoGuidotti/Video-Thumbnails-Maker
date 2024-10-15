@@ -38,16 +38,6 @@ CREATE TABLE `thumbnail_job` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `thumbnail_job`
---
-
-LOCK TABLES `thumbnail_job` WRITE;
-/*!40000 ALTER TABLE `thumbnail_job` DISABLE KEYS */;
-INSERT INTO `thumbnail_job` VALUES (1,4,500,500,'COMPLETED'),(2,4,750,500,'COMPLETED'),(3,5,750,500,'COMPLETED'),(4,5,750,1000,'COMPLETED');
-/*!40000 ALTER TABLE `thumbnail_job` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `video_job`
 --
 
@@ -62,15 +52,6 @@ CREATE TABLE `video_job` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `video_job`
---
-
-LOCK TABLES `video_job` WRITE;
-/*!40000 ALTER TABLE `video_job` DISABLE KEYS */;
-INSERT INTO `video_job` VALUES (4,'Simpson - Roofi St15 ep 8.mp4','COMPLETED'),(5,'I Simpson ITA - Homer distrugge la chiesa.mp4','COMPLETED');
-/*!40000 ALTER TABLE `video_job` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
