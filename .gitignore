@@ -1,1 +1,2 @@
-videoThumbnailsMaker/data
+videoThumbnailsMaker/data/thumbnails/*
+videoThumbnailsMaker/data/uploaded_video/*
