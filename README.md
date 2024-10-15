@@ -13,7 +13,7 @@ The folder Video-Thumbnails-Maker/videoThumbnailsMaker contains:
         <li>index.py: The application server that exposes the service</li>
         <li>data: Folder in which thumbnails and videos will be saved</li>
         <li>templates: Folder in which HTML templates are stored</li>
-        <li>models: Package containing declaration for the two classes used: VideoJob and ThumbnailsJob </li>
+        <li>models: Package containing declaration for the classes used in the project: VideoJob, VideoJobSchema, ThumbnailJob and ThumbnailJobSchema </li>
         <li>utilities: Package containing python utilities to access to the application database and filesystem</li>
     </ul>
 
@@ -28,7 +28,7 @@ used for the application data, while redis is necessary to establish and maintai
 In order to set the MySQL environment properly, it is necessary to add a new user called "admin". You can issue the following commands:
 
 ```bash
-    > sudo mysql
+    $ sudo mysql
 
     # in mysql shell
     CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
@@ -41,7 +41,7 @@ Then, you can restore the application database starting from the dump file with 
 
 ```bash
     # from the Video-Thumbnail-Maker directory
-    > mysql -u admin -p < videoThumbnailsMaker_DB_dump.sql
+    $ mysql -u admin -p < videoThumbnailsMaker_DB_dump.sql
 ```
 
 To run this application, it is important to have Python 3.10+ and [Pipenv](https://pipenv.readthedocs.io/en/latest/) installed locally. 
@@ -49,7 +49,7 @@ If you have then, you can issue the following commands:
 
 ```bash
     # from the Video-Thumbnail-Maker directory
-    > ./start.sh 
+    $ ./start.sh 
 ```
 
 Now the application is working at localhost:5000
