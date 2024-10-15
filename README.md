@@ -109,11 +109,15 @@ server publish to the SSE connection the new status.
     <li>
         <b>"localhost:5000/jobs/videos/[id]</b>: Endpoint that returns the JSON object representing the job in charge of uploading a video indentified by id, that is
         an integer. An example of such JSON object is:
+
+
         {
             "filename": "video.mp4",
             "id": 3,
             "status": "QUEUED"
         }
+
+
     </li>
     <li>
         <b>"localhost:5000/jobs/thumbnails/[id]"</b>: Endpoint that returns the JSON object representing the job in charge of extracting a thumbnail indentified by id, 
