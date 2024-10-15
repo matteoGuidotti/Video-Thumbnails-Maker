@@ -69,6 +69,25 @@ for studying a solution to enable Server-Sent Events at the expense of studying 
 use the default configuration of Flask severs, that is single-threaded. I know that it is not a great solution in terms of performance, but I didn't find the time
 to study a solution to handle concurrence among threads. This choice will have some consequences that I will analyze later on.
 
+### MySQL application database and filesystem organization
+
+The application database is composed by 2 tables: video_job and thumbnail_job.
+<ul>
+    <li>
+        video_job: its fields are: id, filename, status. Each record of this table identify a job in charge of uploading a video named "filename".
+        It is possible to retrieve which are the videos that are present in the filesystem because they are the ones related to a video_job record
+        that has status equal to "COMPLETED". All the videos are contained in "data/uploaded_videos".
+    </li>
+    <li>
+        thumbnail_job: its fields are: id, video_id, width, height, status. Each record of this table identify a job in charge of extracting a thumbnail.
+        It is possible to retrieve which are the thumbnails that are present in the filesystem because they are the ones related to a thumbnail_job record
+        that has status equal to "COMPLETED". The filename of such thumbnail will be "thumbnail_[videoID]_[width]_[height].jpg". All the thumbnails are
+        contained in "data/thumbnails".
+    </li>
+</ul>
+I decided to store the files in a filesystem instead of in the database as row bytes in order to not waste additional time converting files
+when they need to be stored, in addition to the INSERT query, that would become much more heavier.
+
 ### Real-time updates
 
 The real-time updates are achieved using Server-Sent Events technology. I chose to use such technology because the only updates to be made are sent from the backend
@@ -80,3 +99,14 @@ consent to connect to the SSE service and, whenever an error is received, it rec
 solution had been implemented, this connection problem would have been presented more rarely during the execution of the system.<br>
 The real-time updates are related to jobs that are in charge of uploading a new video or extracting a thumbnail. Whenever the status of a job changes, the
 server publish to the SSE connection the new status.
+
+### API endpoints
+
+<ul>
+    <li>
+        <b>"localhost:5000/jobs"</b>: Endpoint that renders the html page showing real-time updates
+    </li>
+    <li>
+        <b>"localhost:5000/jobs/videos/<int:id></b>
+    </li>
+</ul>
