@@ -8,6 +8,7 @@ flask = "*"
 flask-mysqldb = "*"
 flask-sse = "*"
 marshmallow = "*"
+moviepy = "*"
 
 [dev-packages]
 

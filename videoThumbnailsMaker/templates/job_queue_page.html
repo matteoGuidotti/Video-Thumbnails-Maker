@@ -6,18 +6,26 @@
 <body>
   <h1>Flask-SSE Quickstart</h1>
   <script>
-    var source = new EventSource("{{ url_for('sse.stream') }}");
-    source.addEventListener('job_status', function(event) {
-        var data = JSON.parse(event.data);
-        //alert("The server says " + data.message);
-        const div = document.getElementById('myDiv');
-        const new_p = document.createElement('p');
-        new_p.textContent = data.message;
-        div.appendChild(new_p);
-    }, false);
-    source.addEventListener('error', function(event) {
-        alert("Failed to connect to event stream. Is Redis running?");
-    }, false);
+      function connect(){
+        var source = new EventSource("{{ url_for('sse.stream') }}");
+        event_listener = source.addEventListener('job_status', function(event) {
+            var data = JSON.parse(event.data);
+            //alert("The server says " + data.message);
+            const div = document.getElementById('myDiv');
+            const new_p = document.createElement('p');
+            new_p.textContent = data.message;
+            div.appendChild(new_p);
+        }, false);
+
+        source.addEventListener('error', function(event) {
+            source.close();
+            connect();
+        }, false);
+      }
+      
+      connect();
+
+
   </script>
 <div id = "myDiv"></div>
 </body>
