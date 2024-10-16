@@ -104,11 +104,11 @@ server publish to the SSE connection the new status.
 
 <ul>
     <li>
-        <b>"localhost:5000/jobs"</b>: Endpoint that renders the html page showing real-time updates
+        <b>"GET localhost:5000/jobs"</b>: Endpoint that renders the html page showing real-time updates using the request method GET.
     </li>
     <li>
-        <b>"localhost:5000/jobs/videos/[id]</b>: Endpoint that returns the JSON object representing the job in charge of uploading a video indentified by id, that is
-        an integer. An example of such JSON object is:
+        <b>"GET localhost:5000/jobs/videos/[id]</b>: Endpoint that returns the JSON object representing the job in charge of uploading a video indentified by id, that is
+        an integer. It accepts requests using the method GET. An example of the returned JSON object is:
 
 
         {
@@ -120,7 +120,40 @@ server publish to the SSE connection the new status.
 
 </li>
     <li>
-        <b>"localhost:5000/jobs/thumbnails/[id]"</b>: Endpoint that returns the JSON object representing the job in charge of extracting a thumbnail indentified by id, 
-        that is an integer. 
+        <b>"GET localhost:5000/jobs/thumbnails/[id]"</b>: Endpoint that returns the JSON object representing the job in charge of extracting a thumbnail indentified by id, 
+        that is an integer. It accepts requests using the method GET. An example of the returned JSON object is:
+
+
+        {
+            "height": 500,
+            "id": 7,
+            "status": "COMPLETED",
+            "video_id": 9,
+            "width": 500
+        }
+</li>
+    <li>
+        <b>"POST localhost:5000/videos"</b>: Endpoint that consents to upload a new video using the request method POST. The new video has to be sent as a form-data uploaded 
+        file with the key = 'video'. It returns error if the uploaded file has empty filename or if a file with the same name already exists in the filesystem. 
+        It is responsible for storing the uploaded video in the folder "data/uploaded_videos" and to insert a new record for the job responsible for such upload operation.
+        Due to the fact that the application is single-threaded, it doesn't make sense to insert the record with status "QUEUED", because it will be certainly changed
+        before every other request can access to it. So, I decided to insert the new record only at the end of the operations, so the possible statuses are "FAILED" and
+        "COMPLETED". However, the application simulates the multi-threaded behaviour by firstly generating the new video_job object with status equal to "QUEUED".
+    </li>
+    <li>
+        <b>"GET localhost:5000/videos"</b>: Endpoint that consents to retrieve the list of videos that are stored in the filesystem using the request method GET.
+        It returns a JSON object containing the information about the jobs in charge of uploading videos characterized by status equal to "COMPLETED". It is important to 
+        remind that the videos that are actually stored in the filesystem are the only ones related to jobs that have status equal to "COMPLETED".
+    </li>
+    <li>
+        <b>"POST localhost:5000/thumbnails/[video_id]/[width]/[height]"</b>: Endpoint that consents to request the extraction of a new thumbnail for a video identified by
+        video_id, that is an integer, using the request method POST. The other two integers are width and height and represent the size of the requested thumbnail. It returns error if the requested
+        video is not in the filesystem. The generation of the thumbnail is made possible by the moviepy and PIL modules, that are exploited in the utility made available
+        by "utilities/thumbnails_file_utilities.py", that generates and stores the new file. The newly created thumbnails are saved in the folder "data/thumbnails" and their name will be "thumbnail_[videoID]_[width]_[height].jpg". For simplicity, I decided to generate the thumbnail by using the first frame of the video. The method is also responsible for updating the application database with the record related to the job in charge of extracting the thumbnail. As for the
+        upload of videos, due to the fact that the application is single-threaded, it doesn't make sense to insert the record with status "QUEUED", because it will be certainly changed before every other request can access to it. So, I decided to insert the new record only at the end of the operations, so the possible statuses are "FAILED" and "COMPLETED". However, the application simulates the multi-threaded behaviour by firstly generating the new thumbnail_job object with status equal to "QUEUED".
+    </li>
+    <li>
+        <b>"GET localhost:5000/t/[video_id]?w=[width]&h=[height]"</b>: Endpoint that sends to the client the thumbnail for the video identified by video_id, with the 
+        requested width and height using the request method GET. It returns error if the requested thumbnail is not in the filesystem.
     </li>
 </ul>
