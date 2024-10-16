@@ -14,7 +14,7 @@ The folder Video-Thumbnails-Maker/videoThumbnailsMaker contains:
         <li><b>data</b>: Folder in which thumbnails and videos will be saved</li>
         <li><b>templates</b>: Folder in which HTML templates are stored</li>
         <li><b>models</b>: Package containing declaration for the classes used in the project: VideoJob, VideoJobSchema, ThumbnailJob and ThumbnailJobSchema</li>
-        <li><b>utilities</b>: Package containing python utilities to access to the application database and filesystem</li>
+        <li><b>utilities</b>: Package containing python utilities to access to the application database and to create and thumbnails</li>
     </ul>
 
 ## Running the application
