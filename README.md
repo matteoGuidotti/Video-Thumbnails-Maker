@@ -155,7 +155,7 @@ Endpoint that consents to request the extraction of a new thumbnail for a video 
 
 #### GET localhost:5000/t/\[video_id\]?w=\[width\]&h=\[height\]
 Endpoint that sends to the client the thumbnail file for the video identified by video_id, with the 
-        requested width and height using the request method GET. It returns error if the requested thumbnail is not in the filesystem.
+        requested width and height, using the request method GET. It returns error if the requested thumbnail is not in the filesystem.
 
 
 ## Possible improvements
