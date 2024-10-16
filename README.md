@@ -102,6 +102,8 @@ server publish to the SSE connection the new status.
 
 ### API endpoints
 
+#### GET localhost:5000/jobs
+Endpoint that renders the html page showing real-time updates using the request method GET.
 <ul>
     <li>
         <b>"GET localhost:5000/jobs"</b>: Endpoint that renders the html page showing real-time updates using the request method GET.
@@ -157,3 +159,6 @@ server publish to the SSE connection the new status.
         requested width and height using the request method GET. It returns error if the requested thumbnail is not in the filesystem.
     </li>
 </ul>
+
+## Possible improvements
+
