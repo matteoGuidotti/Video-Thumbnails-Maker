@@ -72,7 +72,7 @@ to study a solution to handle concurrence among threads. This choice will have s
 ### MySQL application database and filesystem organization
 
 I decided to store the files (videos and images) in a filesystem instead of in the database as row bytes in order to not waste additional time converting files
-when they need to be stored, in addition to the INSERT query, that would become much more heavier. <br>
+when they need to be stored. After the conversion of the file to row bytes, the system should still perform the INSERT query, that would become much more heavier. <br>
 The application database is composed by 2 tables: video_job and thumbnail_job.
 
 #### video_job
