@@ -149,13 +149,16 @@ Endpoint that consents to retrieve the list of videos that are stored in the fil
 Endpoint that consents to request the extraction of a new thumbnail for a video identified by
         video_id, that is an integer, using the request method POST. The other two integers are width and height and represent the size of the requested thumbnail. It returns error if the requested
         video is not in the filesystem. The generation of the thumbnail is made possible by the moviepy and PIL modules, that are exploited in the utility made available
-        by "utilities/thumbnails_file_utilities.py", that generates and stores the new file. The newly created thumbnails are saved in the folder "data/thumbnails" and their name will be "thumbnail_\[video_id\]_\[width\]_\[height\].jpg". For simplicity, I decided to generate the thumbnail by using the first frame of the video. The method is also responsible for updating the application database with the record related to the job in charge of extracting the thumbnail. As for the
+        by "utilities/thumbnails_file_utilities.py", that generates and stores the new file. The newly created thumbnails are saved in the folder "data/thumbnails" and their name will be "thumbnail_\[video_id\]\_\[width\]_\[height\].jpg". For simplicity, I decided to generate the thumbnail by using the first frame of the video. The method is also responsible for updating the application database with the record related to the job in charge of extracting the thumbnail. As for the
         upload of videos, due to the fact that the application is single-threaded, it doesn't make sense to insert the record with status "QUEUED", because it will be certainly changed before every other request can access to it. So, I decided to insert the new record only at the end of the operations, so the possible statuses are "FAILED" and "COMPLETED". However, the application simulates the multi-threaded behaviour by firstly generating the new thumbnail_job object with status equal to "QUEUED".
 
 #### GET localhost:5000/t/\[video_id\]?w=\[width\]&h=\[height\]
-Endpoint that sends to the client the thumbnail for the video identified by video_id, with the 
+Endpoint that sends to the client the thumbnail file for the video identified by video_id, with the 
         requested width and height using the request method GET. It returns error if the requested thumbnail is not in the filesystem.
 
 
 ## Possible improvements
 
+As I already said in the introduction, the application could be made into a multi-threaded application in order to increase performance. In particular, when heavier operations
+like the upload of a video or the creation of a thumbnail are requested, the server could delegate a thread to perform such operations and immediately inform the client
+that it is performing the requested operation asynchronously. In this way, the client won't be forced to wait for the end of all the operations required to complete the task.
