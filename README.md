@@ -135,7 +135,7 @@ Endpoint that returns the JSON object representing the job in charge of extracti
 #### POST localhost:5000/videos
 Endpoint that consents to upload a new video using the request method POST. The new video has to be sent as a form-data uploaded 
         file with the key = 'video'. It returns error if the uploaded file has empty filename or if a file with the same name already exists in the filesystem. 
-        It is responsible for storing the uploaded video in the folder "data/uploaded_videos" and to insert a new record for the job responsible for such upload operation.
+        It is responsible for storing the uploaded video in the folder "data/uploaded_videos" and to insert a new record to the mysql database for the job responsible for such upload operation.
         Due to the fact that the application is single-threaded, it doesn't make sense to insert the record with status "QUEUED", because it will be certainly changed
         before every other request can access to it. So, I decided to insert the new record only at the end of the operations, so the possible statuses are "FAILED" and
         "COMPLETED". However, the application simulates the multi-threaded behaviour by firstly generating the new video_job object with status equal to "QUEUED".
