@@ -46,7 +46,7 @@ Then, you can restore the application database starting from the dump file with 
 ```
 
 To run this application, it is important to have Python 3.10+ and [Pipenv](https://pipenv.readthedocs.io/en/latest/) installed locally. 
-If you have then, when configuring the application you can issue the following command to set the Python virtual environment, 
+If you have them, when configuring the application you can issue the following command to set the Python virtual environment, 
 so to obtain an environment in which all the required dependencies are satisified:
 
 ```bash
@@ -60,42 +60,43 @@ Then, whenever you want to start the application, you can issue just the followi
     $ ./start.sh 
 ```
 
-Now the application is working at localhost:5000
+Now the application is working at localhost:5000.
 
 ## Description of the application
 
-Considered the fact that in my academic studies I developed only single-threaded API services without real-updates, I preferred to spend more time
+Considered the fact that in my academic studies I developed only single-threaded API services without real-time updates, I preferred to spend more time
 for studying a solution to enable Server-Sent Events at the expense of studying how concurrence between threads could be handled. So, I decided to
-use the default configuration of Flask severs, that is single-threaded. I know that it is not a great solution in terms of performance, but I didn't find the time
+use the default configuration of Flask servers, that is single-threaded. I know that it is not the best solution in terms of performance, but I didn't find the time
 to study a solution to handle concurrence among threads. This choice will have some consequences that I will analyze later on.
 
 ### MySQL application database and filesystem organization
 
+I decided to store the files (videos and images) in a filesystem instead of in the database as row bytes in order to not waste additional time converting files
+when they need to be stored, in addition to the INSERT query, that would become much more heavier. <br>
 The application database is composed by 2 tables: video_job and thumbnail_job.
-<ul>
-    <li>
-        video_job: its fields are: id, filename, status. Each record of this table identify a job in charge of uploading a video named "filename".
+
+#### video_job
+
+its fields are: id, filename, status. Each record of this table identify a job in charge of uploading a video named "filename".
         It is possible to retrieve which are the videos that are present in the filesystem because they are the ones related to a video_job record
-        that has status equal to "COMPLETED". All the videos are contained in "data/uploaded_videos".
-    </li>
-    <li>
-        thumbnail_job: its fields are: id, video_id, width, height, status. Each record of this table identify a job in charge of extracting a thumbnail.
+        that has status equal to "COMPLETED". All the successfully uploaded videos are contained in "data/uploaded_videos".
+
+#### thumbnail_job
+
+its fields are: id, video_id, width, height, status. Each record of this table identify a job in charge of extracting a thumbnail.
         It is possible to retrieve which are the thumbnails that are present in the filesystem because they are the ones related to a thumbnail_job record
-        that has status equal to "COMPLETED". The filename of such thumbnail will be "thumbnail_[video_id]_[width]_[height].jpg". All the thumbnails are
+        that has status equal to "COMPLETED". The filename of such thumbnail will be "thumbnail_\[video_id\]\_\[width\]_\[height\].jpg". All the thumbnails are
         contained in "data/thumbnails".
-    </li>
-</ul>
-I decided to store the files in a filesystem instead of in the database as row bytes in order to not waste additional time converting files
-when they need to be stored, in addition to the INSERT query, that would become much more heavier.
+
 
 ### Real-time updates
 
 The real-time updates are achieved using Server-Sent Events technology. I chose to use such technology because the only updates to be made are sent from the backend
-and received by the frontend. Given that it is easier to implement than websockets and that the connection is mono-directional, I chose SSE.<br>
-In Flask servers, a SSE connection can be achieved exploiting the module flask_sse. It requires a connection with a local redis database server. Due to the fact 
-that my application is single-threaded, sometimes the SSE connection is lost. In order to solve such problem, the frontend needs to handle the loss of
+and received by the frontend. Given that it is easier to implement and handle than websockets and that the connection is mono-directional, I chose SSE.<br>
+In Flask servers, a SSE connection can be achieved exploiting the module flask_sse. It requires a connection with a local redis database server. Since 
+my application is single-threaded, sometimes the SSE connection is lost. In order to solve such problem, the frontend needs to handle the loss of
 connection by reconnecting to the SSE service. I tested this functionality with the templates/job_queue_page.html file. In this file, the javascript script
-consent to connect to the SSE service and, whenever an error is received, it reconnects to the server. In this way, the connection is quite stable. If a multi-worker
+consents to connect to the SSE service and, whenever an error is received, it reconnects to the server. In this way, the connection is quite stable. If a multi-worker
 solution had been implemented, this connection problem would have been presented more rarely during the execution of the system.<br>
 The real-time updates are related to jobs that are in charge of uploading a new video or extracting a thumbnail. Whenever the status of a job changes, the
 server publish to the SSE connection the new status.
@@ -149,7 +150,7 @@ Endpoint that consents to retrieve the list of videos that are stored in the fil
 Endpoint that consents to request the extraction of a new thumbnail for a video identified by
         video_id, that is an integer, using the request method POST. The other two integers are width and height and represent the size of the requested thumbnail. It returns error if the requested
         video is not in the filesystem. The generation of the thumbnail is made possible by the moviepy and PIL modules, that are exploited in the utility made available
-        by "utilities/thumbnails_file_utilities.py", that generates and stores the new file. The newly created thumbnails are saved in the folder "data/thumbnails" and their name will be "thumbnail_\[video_id\]\_\[width\]_\[height\].jpg". For simplicity, I decided to generate the thumbnail by using the first frame of the video. The method is also responsible for updating the application database with the record related to the job in charge of extracting the thumbnail. As for the
+        by "utilities/thumbnails_file_utilities.py", that generates and stores the new file. For simplicity, I decided to generate the thumbnail by using the first frame of the video. The newly created thumbnails are saved in the folder "data/thumbnails" and their name will be "thumbnail_\[video_id\]\_\[width\]_\[height\].jpg". The method is also responsible for updating the application database with the record related to the job in charge of extracting the thumbnail. As for the
         upload of videos, due to the fact that the application is single-threaded, it doesn't make sense to insert the record with status "QUEUED", because it will be certainly changed before every other request can access to it. So, I decided to insert the new record only at the end of the operations, so the possible statuses are "FAILED" and "COMPLETED". However, the application simulates the multi-threaded behaviour by firstly generating the new thumbnail_job object with status equal to "QUEUED".
 
 #### GET localhost:5000/t/\[video_id\]?w=\[width\]&h=\[height\]
