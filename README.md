@@ -1,4 +1,4 @@
-# Video-Thumbnails-Maker Project
+# Video-Thumbnails-Maker Project of Matteo Guidotti
 
 This repository contains code for the backend solution of the "Video Thumbnails Maker" project.
 The project has been entirely developed in Python, thanks to the Flask package. 
@@ -77,13 +77,13 @@ The application database is composed by 2 tables: video_job and thumbnail_job.
 
 #### video_job
 
-its fields are: id, filename, status. Each record of this table identify a job in charge of uploading a video named "filename".
+Its fields are: id, filename, status. Each record of this table identify a job in charge of uploading a video named "filename".
         It is possible to retrieve which are the videos that are present in the filesystem because they are the ones related to a video_job record
         that has status equal to "COMPLETED". All the successfully uploaded videos are contained in "data/uploaded_videos".
 
 #### thumbnail_job
 
-its fields are: id, video_id, width, height, status. Each record of this table identify a job in charge of extracting a thumbnail.
+Its fields are: id, video_id, width, height, status. Each record of this table identify a job in charge of extracting a thumbnail.
         It is possible to retrieve which are the thumbnails that are present in the filesystem because they are the ones related to a thumbnail_job record
         that has status equal to "COMPLETED". The filename of such thumbnail will be "thumbnail_\[video_id\]\_\[width\]_\[height\].jpg". All the thumbnails are
         contained in "data/thumbnails".
@@ -95,7 +95,7 @@ The real-time updates are achieved using Server-Sent Events technology. I chose 
 and received by the frontend. Given that it is easier to implement and handle than websockets and that the connection is mono-directional, I chose SSE.<br>
 In Flask servers, a SSE connection can be achieved exploiting the module flask_sse. It requires a connection with a local redis database server. Since 
 my application is single-threaded, sometimes the SSE connection is lost. In order to solve such problem, the frontend needs to handle the loss of
-connection by reconnecting to the SSE service. I tested this functionality with the templates/job_queue_page.html file. In this file, the javascript script
+connection by reconnecting to the SSE service. I tested this functionality with the "templates/job_queue_page.html" file. In this file, the javascript script
 consents to connect to the SSE service and, whenever an error is received, it reconnects to the server. In this way, the connection is quite stable. If a multi-worker
 solution had been implemented, this connection problem would have been presented more rarely during the execution of the system.<br>
 The real-time updates are related to jobs that are in charge of uploading a new video or extracting a thumbnail. Whenever the status of a job changes, the
